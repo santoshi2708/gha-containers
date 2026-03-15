@@ -1,20 +1,27 @@
-name: container deployment
-on: workflow-dispatch
+name: service conatiner deployment
+on: push
 env:
   CACHE_KEY: node-deps
   MONGODB_DB_NAME: gha-demo
 jobs:
   test:
-    environment: testing
     runs-on: ubuntu-latest
     container:
       image: node:24
     env:
-      MONGODB_CONNECTION_PROTOCOL: mongodb+srv
-      MONGODB_CLUSTER_ADDRESS: cluster1.21onlox.mongodb.net
-      MONGODB_USERNAME: ${{ secrets.MONGODB_USERNAME }}
-      MONGODB_PASSWORD: ${{ secrets.MONGODB_PASSWORD }}
+      MONGODB_CONNECTION_PROTOCOL: mongodb
+      MONGODB_CLUSTER_ADDRESS: mongodb
+      MONGODB_USERNAME: admin
+      MONGODB_PASSWORD: admin
       PORT: 8080
+    services:
+      mongodb:
+        image: mongo
+        ports:
+          - 27017:27017
+      env:
+        MONGO_INITDB_ROOT_USERNAME: admin
+        MONGO_INITDB_ROOT_PASSWORD: admin
     steps:
       - name: Get Code
         uses: actions/checkout@v3
