@@ -1,16 +1,14 @@
 name: service conatiner deployment
-on: workflow_dispatch
+on: push
 env:
   CACHE_KEY: node-deps
   MONGODB_DB_NAME: gha-demo
 jobs:
   test:
     runs-on: ubuntu-latest
-    container:
-      image: node:24
     env:
       MONGODB_CONNECTION_PROTOCOL: mongodb
-      MONGODB_CLUSTER_ADDRESS: mongodb
+      MONGODB_CLUSTER_ADDRESS:127.0.0.1:27017
       MONGODB_USERNAME: root
       MONGODB_PASSWORD: example
       PORT: 8080
